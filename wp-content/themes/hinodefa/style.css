@@ -1,0 +1,34 @@
+/*
+Theme Name: HinodeFA
+Theme URI: http://hinodefa.com
+Author: VencedorAgora
+Author URI: http://vencedoragora.com
+Description: Tema hinode fa
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags:hidenofa
+Text Domain: hinodefa
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+body{
+	background-color: #ececec;
+}
+.container{
+	background-color: #fff;
+	width: 950px;
+	height: 600px;
+	margin:20px auto;
+}
+.container-topo{
+	width: 950px;
+	height: 60px;
+	margin:20px auto;
+}
+.footer{
+	width: 950px;
+	height: 30px;
+	margin:20px auto;	
+}
