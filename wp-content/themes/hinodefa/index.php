@@ -1,4 +1,8 @@
-<?php echo get_header(); ?>
+<?php 
+get_header(); 
+global $wpdb;
+$ultimosUsuarios = $wpdb->get_results("SELECT id FROM wp_users ORDER BY user_registered DESC LIMIT 9");
+?>
 <style>
     #svg-map path { fill:#6cb361 }
     #svg-map text { fill:#fff; font:12px Arial-BoldMT, sans-serif; cursor:pointer }
@@ -8,20 +12,6 @@
     #svg-map .circle { fill:#10592f }
     #svg-map a:hover .circle { fill:#003399 !important; cursor:pointer }
   </style>
-<div class="container-topo">
-	<div class="row" style="ver">
-		<div class="col-md-6">
-			<img src="http://placehold.it/295x55&text=Logo" alt="" class="img-thumbnail">
-		</div>
-		<div class="col-md-4" style="text-align:right">
-			<a href="">Minha conta</a>
-		</div>
-		<div class="col-md-2" style="text-align:right">
-			
-			<button type="button" class="btn btn-primary">Efetuar Registro</button>
-		</div>
-	</div>
-</div>
 <div class="container" style="border: 1px solid #cccccc;padding:20px">
 	<div class="row">
 		<div class="col-md-6">
@@ -29,15 +19,9 @@
 			<h1>definida lá lá lá</h1>
 
 			<h3>Últimos cadastrados</h3>
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
-			<img src="http://placehold.it/116x88" alt="" class="img-thumbnail">
+            <?php foreach ($ultimosUsuarios as $key => $value) { ?>
+            <img width="116" src="<?php echo get_template_directory_uri().'/avatar/'. $value->id ?>.jpg" alt="" class="img-thumbnail">
+            <?php } ?>
 		</div>
 		<div class="col-md-6">
 			<svg version="1.1" id="svg-map" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="450px" height="460px" viewBox="0 0 450 460" enable-background="new 0 0 450 460" xml:space="preserve">

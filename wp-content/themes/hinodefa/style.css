@@ -19,7 +19,7 @@ body{
 .container{
 	background-color: #fff;
 	width: 950px;
-	height: 600px;
+	min-height: 600px;
 	margin:20px auto;
 }
 .container-topo{
