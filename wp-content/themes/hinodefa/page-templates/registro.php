@@ -75,50 +75,11 @@ if(isset($_POST['nome'])){
 				nome:{
 					required:true
 				},
-				sobrenome:{
-					required:true
-				},
 				email:{
 					required:true,
 					email:true
 				},
-				endereco:{
-					required:true
-				},
-				bairro:{
-					required:true
-				},
-				cidade:{
-					required:true
-				},
-				estado:{
-					required:true
-				},
-				cep:{
-					required:true
-				},
-				pais:{
-					required:true
-				},
-				skype:{
-					required:true
-				},
-				facebook:{
-					required:true
-				},
-				whatsapp:{
-					required:true
-				},
-				site:{
-					required:true
-				},
 				telefone:{
-					required:true
-				},
-				celular:{
-					required:true
-				},
-				foto:{
 					required:true
 				}
 			},

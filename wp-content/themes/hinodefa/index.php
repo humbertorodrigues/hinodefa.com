@@ -2,6 +2,18 @@
 get_header(); 
 global $wpdb;
 $ultimosUsuarios = $wpdb->get_results("SELECT id FROM wp_users ORDER BY user_registered DESC LIMIT 9");
+
+$meta_query_args = array(
+    array(
+        'key'     => 'hinode_status',
+        'value'   => 'ativo',
+        'compare' => '='
+        ));
+$args = array('meta_query'=>$meta_query_args,
+    'orderby'=>'registered',
+    'number' => '9',
+    'order'=>'DESC');
+$ultimosUsuarios = get_users($args);
 ?>
 <style>
     #svg-map path { fill:#6cb361 }
@@ -15,15 +27,18 @@ $ultimosUsuarios = $wpdb->get_results("SELECT id FROM wp_users ORDER BY user_reg
 <div class="container" style="border: 1px solid #cccccc;padding:20px">
 	<div class="row">
 		<div class="col-md-6">
-			<h1>Frase ainda a ser</h1>
-			<h1>definida lá lá lá</h1>
+			<h1 style="margin-bottom:0">Grupo Hinoderonte</h1>
+			<h1 style="margin:0">Líderes Fernando Augusto</h1>
 
 			<h3>Últimos cadastrados</h3>
             <?php foreach ($ultimosUsuarios as $key => $value) { ?>
-            <img width="116" src="<?php echo get_template_directory_uri().'/avatar/'. $value->id ?>.jpg" alt="" class="img-thumbnail">
+            <a href="<?php echo site_url()."/usuario?id=".$value->id ?>">
+                <img width="116" src="<?php echo get_template_directory_uri().'/avatar/'. $value->id ?>.jpg" alt="" class="img-thumbnail">
+            </a>
             <?php } ?>
 		</div>
 		<div class="col-md-6">
+            <h3>Busque seu líder nos estados abaixo</h3>
 			<svg version="1.1" id="svg-map" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="450px" height="460px" viewBox="0 0 450 460" enable-background="new 0 0 450 460" xml:space="preserve">
     <g>
       <a xlink:href="<?php echo site_url() ?>/listar/?estado=to">

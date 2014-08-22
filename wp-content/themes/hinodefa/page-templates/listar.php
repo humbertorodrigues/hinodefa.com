@@ -133,6 +133,7 @@ $usuarios = get_users($args);
 
 ?>
 <div class="container" style="border: 1px solid #cccccc;padding:20px">
+	<a href="<?php echo site_url(); ?>">&#8617;Home</a>
 	<?php 
 	if($total_users===0){
 		?>
@@ -167,7 +168,7 @@ $usuarios = get_users($args);
 					<img width="24" src="<?php echo get_template_directory_uri().'/icones/'?>skype.png" alt="Skype"> <?php echo $skype ?>
 					<img width="24" src="<?php echo get_template_directory_uri().'/icones/'?>telefone.png" alt="Telefone"> <?php echo $telefone ?>
 					<img width="24" src="<?php echo get_template_directory_uri().'/icones/'?>celular.png" alt="Celular"> <?php echo $celular ?>				
-					<a target="_blank" href="<?php echo $facebook ?>"><img width="24" src="<?php echo get_template_directory_uri().'/icones/'?>facebook.png" alt="Facebook"><?php echo $facebook ?></a>
+					<a target="_blank" href="<?php echo $facebook ?>"><img width="24" src="<?php echo get_template_directory_uri().'/icones/'?>facebook.png" alt="Facebook"><?php echo str_replace("https://www.facebook.com/","",$facebook); ?></a>
 					<br>
 					<a target="_blank" href="<?php echo $value->user_url ?>"><?php echo $value->user_url ?></a>
 				</div>
@@ -176,6 +177,8 @@ $usuarios = get_users($args);
 			<?php
 		}
 		?>
+		<div><?php  echo do_shortcode('[fbcomments]'); ?></div>
+		
 		<div style="margin:auto;text-align:center">
 		<?php
 		
