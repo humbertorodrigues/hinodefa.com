@@ -1,5 +1,6 @@
 <?php
 add_action( 'after_switch_theme', 'hinodefa_install' );
+add_action( 'wp_ajax_verificar_login', 'verificarLogin' );
 function hinodefa_install(){
 	$apost = array('comment_status' => 'open',
               'ping_status'    => 'open', // 'closed' means pingbacks or trackbacks turned off
@@ -48,4 +49,13 @@ function hinodefa_install(){
         $id_pagina = wp_insert_post( $apost, $wp_error);
         update_post_meta($id_pagina,'_wp_page_template','page-templates/usuario.php');
     }
+}
+function verificarLogin(){
+  $usuario = $_POST['usuario'];
+  if(is_null(username_exists($usuario))){
+    die("false");  
+  }else{
+    die("true");
+  }
+  
 }

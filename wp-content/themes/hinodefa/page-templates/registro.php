@@ -7,6 +7,9 @@ get_header();
 $passo=1;
 if(isset($_POST['nome'])){
 	$passo=2;
+
+	$usuario=$_POST['usuario'];
+	$senha=$_POST['senha'];
 	$nome=$_POST['nome'];
 	$sobrenome=$_POST['sobrenome'];
 	$email=$_POST['email'];
@@ -22,12 +25,14 @@ if(isset($_POST['nome'])){
 	$site=$_POST['site'];
 	$telefone=$_POST['telefone'];
 	$celular=$_POST['celular'];
+
+	
 	
 
 	$userdata = array(
-    'user_login'  =>  $email,
+    'user_login'  =>  $usuario,
+    'user_pass' => $senha,
     'user_url'    =>  $site,
-    'user_pass'   =>  NULL,
     'user_nicename'   =>  $nome,
     'user_email'   =>  $email,
     'display_name'   =>  $nome,
@@ -52,10 +57,15 @@ if(isset($_POST['nome'])){
 		add_user_meta($id_usuario,"hinode_foto",$foto);
 		add_user_meta($id_usuario,"hinode_status","pendente");
 		//move_uploaded_file($_FILES['foto']['tmp_name'], get_template_directory(). '/avatar/' . $_FILES['foto']['name']);
-		$image = wp_get_image_editor( $_FILES['foto']['tmp_name'] );
-		$image->resize( 116, null, true );
+
+		if(!empty($_FILES['foto']['tmp_name'])){
+			$image = wp_get_image_editor( $_FILES['foto']['tmp_name'] );
+			$image->resize( 116, null, true );	
+			$image->save( get_template_directory(). '/avatar/' . $id_usuario. ".jpg");
+		}
 		
-	    $image->save( get_template_directory(). '/avatar/' . $id_usuario. ".jpg");
+		
+	    
 	}else{ //se ocorreu algum erro
 		$passo=3;
 
@@ -66,6 +76,8 @@ if(isset($_POST['nome'])){
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.3.1/jquery.maskedinput.min.js"></script>
 <script>
 	$(document).ready(function(){
+		$(".fullscreenDiv").hide();
+		var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 		$("#cep").mask("99999-999");
 		$("#whatsapp").mask("(99)9999-9999?9");
 		$("#telefone").mask("(99)9999-9999?9");
@@ -74,6 +86,16 @@ if(isset($_POST['nome'])){
 			rules:{
 				nome:{
 					required:true
+				},
+				usuario:{
+					required:true
+				},
+				senha:{
+					required:true
+				},
+				senha2:{
+					required:true,
+					equalTo:"#senha"
 				},
 				email:{
 					required:true,
@@ -86,6 +108,16 @@ if(isset($_POST['nome'])){
 			messages:{
 				nome:{
 					required:"Informe seu nome"
+				},
+				usuario:{
+					required:"Escolha um nome de usuário"
+				},
+				senha:{
+					required:"Escolha uma senha"
+				},
+				senha2:{
+					required:"Repita a senha digitada no campo acima",
+					equalTo:"As senhas estão diferentes"
 				},
 				sobrenome:{
 					required:"Informe seu sobrenome"
@@ -135,8 +167,39 @@ if(isset($_POST['nome'])){
 				}
 			}
 		})
+		$("#formCadastro").submit(function(e){
+
+			if($("#formCadastro").valid()){
+				$(".fullscreenDiv").show();
+				if($("#disponibilidade_usuario").val()==1){
+
+					return true;
+				}else{
+					e.preventDefault();	
+					$.post(ajaxurl,{'action':'verificar_login','usuario':$("#usuario").val()},function(data){
+						if(data=="false"){							
+							$("#disponibilidade_usuario").val('1');
+							$("#formCadastro").unbind('submit');
+							$("#formCadastro").submit();
+						}else{
+							$("#usuario").focus();
+							$("#usuario").val("");
+							$(".fullscreenDiv").hide();
+							alert("O usuário escolhido está indisponível. Por favor, tente outro nome de usuário");
+						}
+					});
+				}
+				
+			}
+			
+		})
 	})
 </script>
+<div class='fullscreenDiv'>
+    <div class="center">
+    	<img src="<?php echo get_template_directory_uri()?>/img/ajax-loader.gif" border="0" />
+    	<br/>Por gentileza, aguarde...</div>
+</div>
 <div class="container">
 	<h1>Efetuar registro</h1>
 	<?php 
@@ -158,7 +221,26 @@ if(isset($_POST['nome'])){
 	}
 	if($passo==1 || $passo==3){		
 	?>
-	<form action="" method="post" id="formCadastro" enctype="multipart/form-data">
+	<form  action="" method="post" id="formCadastro" enctype="multipart/form-data">
+		<div class="form-group">
+			<label>
+				Nome de usuário
+				<input class="form-control" type="text" name="usuario" id="usuario">
+				<input type="hidden" id="disponibilidade_usuario" name="disponibilidade_usuario" value="0">
+			</label>
+		</div>
+		<div class="form-group">
+			<label>
+				Senha
+				<input class="form-control" type="password" id="senha" name="senha">
+			</label>
+		</div>
+		<div class="form-group">
+			<label>
+				Repita sua senha
+				<input class="form-control" type="password" name="senha2">
+			</label>
+		</div>
 		<div class="form-group">
 			<label>
 				Nome
