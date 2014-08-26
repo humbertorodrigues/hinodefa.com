@@ -1,6 +1,8 @@
 <?php
 add_action( 'after_switch_theme', 'hinodefa_install' );
 add_action( 'wp_ajax_verificar_login', 'verificarLogin' );
+add_action('wp_ajax_nopriv_verificar_login', 'verificarLogin');
+
 function hinodefa_install(){
 	$apost = array('comment_status' => 'open',
               'ping_status'    => 'open', // 'closed' means pingbacks or trackbacks turned off

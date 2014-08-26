@@ -78,6 +78,7 @@ if(isset($_POST['nome'])){
 	$(document).ready(function(){
 		$(".fullscreenDiv").hide();
 		var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+		
 		$("#cep").mask("99999-999");
 		$("#whatsapp").mask("(99)9999-9999?9");
 		$("#telefone").mask("(99)9999-9999?9");
@@ -176,7 +177,7 @@ if(isset($_POST['nome'])){
 					return true;
 				}else{
 					e.preventDefault();	
-					$.post(ajaxurl,{'action':'verificar_login','usuario':$("#usuario").val()},function(data){
+					$.post(ajaxurl,{'action':'verificar_login','usuario':$("#usuario").val()},function(data){						
 						if(data=="false"){							
 							$("#disponibilidade_usuario").val('1');
 							$("#formCadastro").unbind('submit');
